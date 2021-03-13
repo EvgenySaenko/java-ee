@@ -15,6 +15,10 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
     </properties>
 
     <dependencies>
@@ -32,6 +36,19 @@
             <version>1.7.25</version>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
+
+    <build>
+        <finalName>first-web-app</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>2.0.2.Final</version>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

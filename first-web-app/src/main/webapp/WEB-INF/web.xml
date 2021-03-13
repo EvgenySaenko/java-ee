@@ -5,4 +5,15 @@
          version="4.0">
 
     <display-name>First Java EE Web Application</display-name>
+
+    <servlet>
+        <servlet-name>FirstServlet</servlet-name>
+        <servlet-class>ru.geekbrains.FirstServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FirstServlet</servlet-name>
+        <url-pattern></url-pattern>
+    </servlet-mapping>
+
 </web-app>
