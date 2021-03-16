@@ -1,6 +1,6 @@
 name: first-web-app build and deploy to remote Wildfly
 
-on: push
+on: [push]
 
 
 jobs:
@@ -14,7 +14,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-
 
       - name: Build with Maven
         id: mvn_build
