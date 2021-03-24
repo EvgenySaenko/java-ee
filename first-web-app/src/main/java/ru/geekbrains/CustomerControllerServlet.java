@@ -3,6 +3,8 @@ package ru.geekbrains;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.geekbrains.listener.StartupListener;
+import ru.geekbrains.persist.Customer;
+import ru.geekbrains.persist.CustomerRepository;
 import ru.geekbrains.persist.Product;
 import ru.geekbrains.persist.ProductRepository;
 
@@ -16,30 +18,29 @@ import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@WebServlet(urlPatterns = "/product/*")
-public class ProductControllerServlet extends HttpServlet {
-
+@WebServlet(urlPatterns = "/customer/*")
+public class CustomerControllerServlet extends HttpServlet {
     private static final Pattern pathParam = Pattern.compile("\\/(\\d*)$");
 
-    private ProductRepository productRepository;
+    private CustomerRepository customerRepository;
     private static final Logger logger = LoggerFactory.getLogger(StartupListener.class);
 
 
     @Override
     public void init() throws ServletException {
-        productRepository = (ProductRepository) getServletContext().getAttribute("productRepository");
+        customerRepository = (CustomerRepository) getServletContext().getAttribute("customerRepository");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if (req.getPathInfo() == null || req.getPathInfo().equals("") || req.getPathInfo().equals("/")) {
-            req.setAttribute("products", productRepository.findAll());//создали атрибут products и в него сохраним список продуктов для отображения
-            getServletContext().getRequestDispatcher("/WEB-INF/views/product.jsp").forward(req, resp);
+            req.setAttribute("customers", customerRepository.findAll());//создали атрибут products и в него сохраним список продуктов для отображения
+            getServletContext().getRequestDispatcher("/WEB-INF/views/customer.jsp").forward(req, resp);
         }else if (req.getPathInfo().equals("/new")) {
             //отобразить пустую форму ввода
-            req.setAttribute("product", new Product());//добавили атрибут product и в него положили пока пустой продукт
-            getServletContext().getRequestDispatcher("/WEB-INF/views/product_form.jsp").forward(req,resp);
+            req.setAttribute("customer", new Customer());//добавили атрибут product и в него положили пока пустой продукт
+            getServletContext().getRequestDispatcher("/WEB-INF/views/customer_form.jsp").forward(req,resp);
 
         } else {
             Matcher matcher = pathParam.matcher(req.getPathInfo());//сохраняем матчер
@@ -51,12 +52,12 @@ public class ProductControllerServlet extends HttpServlet {
                     resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     return;
                 }
-                Product product = productRepository.findById(id);
-                if (product == null) {
+                Customer customer = customerRepository.findById(id);
+                if (customer == null) {
                     resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 }
-                req.setAttribute("product", product);//добавили атрибут product и в него положили этот продукт
-                getServletContext().getRequestDispatcher("/WEB-INF/views/product_form.jsp").forward(req,resp);
+                req.setAttribute("customer", customer);//добавили атрибут product и в него положили этот продукт
+                getServletContext().getRequestDispatcher("/WEB-INF/views/customer_form.jsp").forward(req,resp);
             }
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -67,13 +68,12 @@ public class ProductControllerServlet extends HttpServlet {
         if (req.getPathInfo() == null || req.getPathInfo().equals("") || req.getPathInfo().equals("/")) {
             String strId = req.getParameter("id");
             try {
-                Product product =  new Product(
+                Customer customer =  new Customer(
                         strId.equals("") ? null : Long.parseLong(strId),
-                        req.getParameter("name"),
-                        req.getParameter("description"),
-                        new BigDecimal(req.getParameter("price")));
-                productRepository.save(product);
-                resp.sendRedirect(getServletContext().getContextPath() + "/product");//просим перейти на эту ссылку браузер(ответ с 300 кодом)
+                        req.getParameter("username"),
+                        req.getParameter("password"));
+                customerRepository.save(customer);
+                resp.sendRedirect(getServletContext().getContextPath() + "/customer");//просим перейти на эту ссылку браузер(ответ с 300 кодом)
             }catch (NumberFormatException ex){
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
