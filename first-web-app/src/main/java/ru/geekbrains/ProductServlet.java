@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@WebServlet(urlPatterns = "/product/*")
+//@WebServlet(urlPatterns = "/product/*")
 public class ProductServlet extends HttpServlet {
 
     // /category/123/product/1231415/list
