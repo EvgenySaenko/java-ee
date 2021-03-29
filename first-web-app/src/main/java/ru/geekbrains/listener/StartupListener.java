@@ -2,8 +2,7 @@ package ru.geekbrains.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.geekbrains.persist.Product;
-import ru.geekbrains.persist.ProductRepository;
+import ru.geekbrains.persist.*;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -27,5 +26,19 @@ public class StartupListener implements ServletContextListener {
         productRepository.save(new Product(null,"Product3","Description 3", new BigDecimal(300)));
         //помещаем репозиторий сюда и вытащить его можем где угодно
         sce.getServletContext().setAttribute("productRepository",productRepository);
+
+        //добавим категорий
+        CategoryRepository categoryRepository =  new CategoryRepository();
+        categoryRepository.save(new Category(null,"electronics"));
+        categoryRepository.save(new Category(null,"food"));
+        categoryRepository.save(new Category(null,"drinks"));
+        sce.getServletContext().setAttribute("categoryRepository",categoryRepository);
+
+        //добавим покупателей
+        CustomerRepository customerRepository = new CustomerRepository();
+        customerRepository.save(new Customer(null,"JackRicher","123456"));
+        customerRepository.save(new Customer(null,"John McClain","777"));
+        sce.getServletContext().setAttribute("customerRepository", customerRepository);
+
     }
 }
