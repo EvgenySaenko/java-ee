@@ -55,7 +55,11 @@
                                 <td>
                                     <c:url value="/category/${category.id}" var="categoryUrl"/>
                                     <a class="btn btn-success" href="${categoryUrl}"><i class="fas fa-edit"></i></a>
-                                    <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>
+                                    <c:url value="/category/delete/${category.id}" var="categoryDeleteUrl"/>
+
+                                    <form method="post" action="${categoryDeleteUrl}" class="d-inline">
+                                        <button class="btn btn-danger"><i class="far fa-trash-alt"></i> </button>
+                                    </form>
                                 </td>
                             </tr>
                         </c:forEach>

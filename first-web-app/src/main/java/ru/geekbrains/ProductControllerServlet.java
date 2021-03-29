@@ -42,25 +42,20 @@ public class ProductControllerServlet extends HttpServlet {
             getServletContext().getRequestDispatcher("/WEB-INF/views/product_form.jsp").forward(req,resp);
 
         } else {
-            Matcher matcher = pathParam.matcher(req.getPathInfo());//сохраняем матчер
-            if (matcher.matches()) {//если матчится - т.е. путь совпал то вернем true
-                long id;
-                try {
-                    id = Long.parseLong(matcher.group(1)); //в 0 будет весь path а в 1 будет (\\d*) как раз наш id
-                } catch (NumberFormatException e) {
-                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    return;
-                }
+            try{
+                long id = getIdFromParams(req.getPathInfo());
                 Product product = productRepository.findById(id);
                 if (product == null) {
                     resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 }
                 req.setAttribute("product", product);//добавили атрибут product и в него положили этот продукт
                 getServletContext().getRequestDispatcher("/WEB-INF/views/product_form.jsp").forward(req,resp);
+            }catch (IllegalArgumentException ex) {
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -77,8 +72,32 @@ public class ProductControllerServlet extends HttpServlet {
             }catch (NumberFormatException ex){
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
-        }else {
+        }else if (req.getPathInfo().startsWith("/delete")) {
+            try{
+                long id = getIdFromParams(req.getPathInfo().replace("/delete",""));
+                productRepository.delete(id);
+                resp.sendRedirect(getServletContext().getContextPath() + "/product");//просим перейти на эту ссылку браузер(ответ с 300 кодом)
+            }catch (IllegalArgumentException ex) {
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
+
+        }else{
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
+
+    private long getIdFromParams(String path) {
+        Matcher matcher = pathParam.matcher(path);//сохраняем матчер
+        if (matcher.matches()) {//если матчится - т.е. путь совпал то вернем true
+            try {
+                return Long.parseLong(matcher.group(1)); //в 0 будет весь path а в 1 будет (\\d*) как раз наш id
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException();
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+
+
 }

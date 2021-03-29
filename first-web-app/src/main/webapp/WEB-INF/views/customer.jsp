@@ -60,7 +60,11 @@
                                 <td>
                                     <c:url value="/customer/${customer.id}" var="customerUrl"/>
                                     <a class="btn btn-success" href="${customerUrl}"><i class="fas fa-edit"></i></a>
-                                    <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>
+                                    <c:url value="/customer/delete/${customer.id}" var="customerDeleteUrl"/>
+
+                                    <form method="post" action="${customerDeleteUrl}" class="d-inline">
+                                        <button class="btn btn-danger"><i class="far fa-trash-alt"></i> </button>
+                                    </form>
                                 </td>
                             </tr>
                         </c:forEach>

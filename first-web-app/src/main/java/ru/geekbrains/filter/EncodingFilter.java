@@ -25,6 +25,7 @@ public class EncodingFilter implements Filter {
         //перед тем как запрос прийдет на сервлет установим кодировку
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
         //все что выше это если что-то нужно сделать до того как запрос попадет сервлету
         chain.doFilter(request, response);

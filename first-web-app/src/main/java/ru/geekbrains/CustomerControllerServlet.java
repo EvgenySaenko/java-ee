@@ -77,8 +77,29 @@ public class CustomerControllerServlet extends HttpServlet {
             }catch (NumberFormatException ex){
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
-        }else {
+        }else if (req.getPathInfo().startsWith("/delete")) {
+            try{
+                long id = getIdFromParams(req.getPathInfo().replace("/delete",""));
+                customerRepository.delete(id);
+                resp.sendRedirect(getServletContext().getContextPath() + "/customer");//просим перейти на эту ссылку браузер(ответ с 300 кодом)
+            }catch (IllegalArgumentException ex) {
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
+
+        }else{
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
+    }
+    //парсит путь и возвращает кусочек пути
+    private long getIdFromParams(String path) {
+        Matcher matcher = pathParam.matcher(path);//сохраняем матчер
+        if (matcher.matches()) {//если матчится - т.е. путь совпал то вернем true
+            try {
+                return Long.parseLong(matcher.group(1)); //в 0 будет весь path а в 1 будет (\\d*) как раз наш id
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException();
+            }
+        }
+        throw new IllegalArgumentException();
     }
 }
