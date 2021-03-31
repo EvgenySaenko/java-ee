@@ -26,7 +26,7 @@ jobs:
 
 
       - name: Build with Maven
-        id: mvn_build_2
+        id: mvn_build
         run: |
           cd first-jsf-app
           mvn --batch-mode clean install wildfly:undeploy wildfly:deploy \
