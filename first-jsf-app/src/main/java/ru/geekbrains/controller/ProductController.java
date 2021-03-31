@@ -29,7 +29,7 @@ public class ProductController implements Serializable {
     }
 
     public List<Product> findAll(){
-        return productRepository.findAll();
+        return  productRepository.findAll();
     }
 
     public String editProduct(Product product){

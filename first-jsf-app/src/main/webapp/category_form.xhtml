@@ -28,10 +28,10 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <h:link styleClass="nav-link" value="Product" outcome="/product.xhtml"/>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <h:link styleClass="nav-link" value="Category" outcome="/category.xhtml"/>
                     </li>
                     <li class="nav-item">
@@ -49,24 +49,12 @@
                     <div class="form-group">
                         <h:outputLabel value="Name"/>
                         <h:inputText styleClass="form-control" id="name"
-                                     value="#{productController.product.name}"
+                                     value="#{categoryController.category.name}"
                                      placeholder="Enter name"/>
                     </div>
-                    <div class="form-group">
-                        <h:outputLabel value="Description"/>
-                        <h:inputText styleClass="form-control" id="description"
-                                     value="#{productController.product.description}"
-                                     placeholder="Enter description"/>
-                    </div>
-                    <div class="form-group">
-                        <label>Price</label>
-                        <h:outputLabel value="Price"/>
-                        <h:inputText styleClass="form-control" p:type="number" id="price"
-                                     value="#{productController.product.price}"
-                                     placeholder="Enter price"/>
-                    </div>
+
                     <h:commandButton value="Submit" styleClass="btn btn-dark"
-                                     action="#{productController.saveProduct()}"/>
+                                     action="#{categoryController.saveCategory()}"/>
                 </h:form>
             </div>
         </div>
