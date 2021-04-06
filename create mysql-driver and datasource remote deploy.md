@@ -137,6 +137,17 @@ root@194-58-120-78:~/java-ee/first-jsf-app# /opt/wildfly/bin/jboss-cli.sh --conn
 - ну и запускаем remote deploy из idea
 
 
+- посмотреть логи переходим в каталог log
+```bash
+root@194-58-120-78:~/java-ee/first-jsf-app# cd /opt/wildfly/standalone/log
+```
+
+-смотрим логи
+```bash
+root@194-58-120-78:/opt/wildfly/standalone/log# tail -f server.log
+```
+
+
 
 
 
