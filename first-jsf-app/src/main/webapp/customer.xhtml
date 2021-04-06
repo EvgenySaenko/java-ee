@@ -1,7 +1,7 @@
 <html lang="en"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
->
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pf="http://primefaces.org/ui">
 
 <h:head>
     <!-- Required meta tags -->
@@ -15,7 +15,9 @@
     <title>EShop application</title>
 </h:head>
 
-<h:body>
+<h:body >
+
+    <f:event listener="#{customerController.preloadData}" type="preRenderView"/>
 
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -28,13 +30,13 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <h:link styleClass="nav-link" value="Product" outcome="/product.xhtml"/>
                     </li>
                     <li class="nav-item">
                         <h:link styleClass="nav-link" value="Category" outcome="/category.xhtml"/>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <h:link styleClass="nav-link" value="Customer" outcome="/customer.xhtml"/>
                     </li>
                 </ul>
@@ -43,34 +45,45 @@
     </div>
 
     <div class="container">
-        <div class="row py-2">
-            <div class="col-12">
-                <h:form>
-                    <div class="form-group">
-                        <h:outputLabel value="Name"/>
-                        <h:inputText styleClass="form-control" id="name"
-                                     value="#{productController.product.name}"
-                                     placeholder="Enter name"/>
-                    </div>
-                    <div class="form-group">
-                        <h:outputLabel value="Description"/>
-                        <h:inputText styleClass="form-control" id="description"
-                                     value="#{productController.product.description}"
-                                     placeholder="Enter description"/>
-                    </div>
-                    <div class="form-group">
-                        <label>Price</label>
-                        <h:outputLabel value="Price"/>
-                        <h:inputText styleClass="form-control" p:type="number" id="price"
-                                     value="#{productController.product.price}"
-                                     placeholder="Enter price"/>
-                    </div>
-                    <h:commandButton value="Submit" styleClass="btn btn-dark"
-                                     action="#{productController.saveProduct()}"/>
-                </h:form>
+        <h:form id="customerTableForm" styleClass="table table-hover">
+
+
+            <table class="table table-striped">
+                <h:dataTable value="#{customerController.findAll()}" var="customer"
+                             styleClass="table table-hover">
+                    <h:column>
+                        <f:facet name="header">Id</f:facet>
+                        #{customer.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">UserName</f:facet>
+                        #{customer.username}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Password</f:facet>
+                        #{customer.password}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Actions</f:facet>
+
+                        <h:commandButton value="Edit" styleClass="btn btn-dark mr-2"
+                                         action="#{customerController.editCustomer(customer)}"/>
+                        <h:commandButton value="Delete" styleClass="btn btn-danger mr-2"
+                                         action="#{customerController.deleteCustomer(customer)}">
+                            <!--                                добавление аджакс запрос чтобы не вся страница обновлялась при удалении а только элемент -->
+                            <f:ajax event="click" render="customerTableForm"/>
+                        </h:commandButton>
+                    </h:column>
+                </h:dataTable>
+            </table>
+
+            <div class="table table-striped">
+                <h:commandButton value="Add Customer" styleClass="btn btn-dark"
+                                 action="#{customerController.addCustomer()}"/>
             </div>
-        </div>
+        </h:form>
     </div>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -83,7 +96,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
-
 </h:body>
-
 </html>
