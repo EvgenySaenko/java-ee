@@ -2,10 +2,8 @@ package ru.geekbrains.controller;
 
 import ru.geekbrains.persist.Customer;
 import ru.geekbrains.persist.CustomerRepository;
-import ru.geekbrains.persist.Product;
-import ru.geekbrains.persist.ProductRepository;
-
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -15,11 +13,17 @@ import java.util.List;
 @Named
 public class CustomerController implements Serializable {
 
-
     @Inject
     private CustomerRepository customerRepository;
 
     private Customer customer;
+
+    private List<Customer> customerList;
+
+    //при загрузке страницы срабатывает и выполняет предзагрузку и сохраняет в список
+    public void preloadData(ComponentSystemEvent componentSystemEvent) {
+        this.customerList = customerRepository.findAll();
+    }
 
     public Customer getCustomer() {
         return customer;
@@ -30,7 +34,7 @@ public class CustomerController implements Serializable {
     }
 
     public List<Customer> findAll(){
-        return customerRepository.findAll();
+        return customerList;
     }
 
     public String editCustomer(Customer customer){

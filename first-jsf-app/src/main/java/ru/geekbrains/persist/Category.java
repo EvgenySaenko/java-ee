@@ -1,9 +1,22 @@
 package ru.geekbrains.persist;
 
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "category")
+@NamedQueries({
+        @NamedQuery(name = "deleteCategoryById", query = "delete from Category c where c.id = :id"),
+        @NamedQuery(name = "findAllCategory", query = "select c from Category c"),
+        @NamedQuery(name = "countCategories", query = "select count(c) from Category c")
+})
 public class Category {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String name;
 
     public Category() {

@@ -1,11 +1,24 @@
 package ru.geekbrains.persist;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "customer")
+@NamedQueries({
+        @NamedQuery(name = "deleteCustomerById", query = "delete from Customer c where c.id = :id"),
+        @NamedQuery(name = "findAllCustomer", query = "select c from Customer c"),
+        @NamedQuery(name = "countCustomers", query = "select count(c) from Customer c")
+})
 public class Customer {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String username;
 
+    @Column
     private String password;
 
     public Customer() {

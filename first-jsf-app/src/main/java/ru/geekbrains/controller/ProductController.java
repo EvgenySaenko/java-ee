@@ -4,9 +4,9 @@ import ru.geekbrains.persist.Product;
 import ru.geekbrains.persist.ProductRepository;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,6 +20,13 @@ public class ProductController implements Serializable {
 
     private Product product;
 
+    private List<Product> productList;
+
+    //при загрузке страницы срабатывает и выполняет предзагрузку и сохраняет в список
+    public void preloadData(ComponentSystemEvent componentSystemEvent) {
+        this.productList = productRepository.findAll();
+    }
+
     public Product getProduct() {
         return product;
     }
@@ -28,8 +35,9 @@ public class ProductController implements Serializable {
         this.product = product;
     }
 
+    //тут мы просто читаем список, чтобы каждый раз при обновлении хибернейт не делал селект
     public List<Product> findAll(){
-        return  productRepository.findAll();
+        return  productList;
     }
 
     public String editProduct(Product product){

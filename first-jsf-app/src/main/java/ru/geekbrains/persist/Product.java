@@ -1,15 +1,30 @@
 package ru.geekbrains.persist;
 
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "products")
+@NamedQueries({
+        //создадим именнованый запрос для метода delete(ProductRepository)
+        @NamedQuery(name = "deleteProductById", query = "delete from Product p where p.id = :id"),
+        //создадим именнованый запрос для метода findALl
+        @NamedQuery(name="findAllProduct", query = "select p from Product p"),//можно писать и сокращенно (from Product p)
+        @NamedQuery(name="countProducts", query = "select count(p) from Product p")
+})
 public class Product {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String name;
 
+    @Column
     private String description;
 
+    @Column
     private BigDecimal price;
 
     public Product() {
@@ -21,6 +36,7 @@ public class Product {
         this.description = description;
         this.price = price;
     }
+
 
     public Long getId() {
         return id;

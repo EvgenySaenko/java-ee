@@ -4,6 +4,7 @@ import ru.geekbrains.persist.Category;
 import ru.geekbrains.persist.CategoryRepository;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -19,6 +20,13 @@ public class CategoryController implements Serializable {
 
     private Category category;
 
+    private List<Category> categoryList;
+
+    //при загрузке страницы срабатывает и выполняет предзагрузку и сохраняет в список
+    public void preloadData(ComponentSystemEvent componentSystemEvent) {
+        this.categoryList = categoryRepository.findAll();
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -28,7 +36,7 @@ public class CategoryController implements Serializable {
     }
 
     public List<Category> findAll(){
-        return categoryRepository.findAll();
+        return categoryList;
     }
 
     public String editCategory(Category category){

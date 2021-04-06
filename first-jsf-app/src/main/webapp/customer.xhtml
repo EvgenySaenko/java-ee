@@ -16,6 +16,9 @@
 </h:head>
 
 <h:body >
+
+    <f:event listener="#{customerController.preloadData}" type="preRenderView"/>
+
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">EShop</a>

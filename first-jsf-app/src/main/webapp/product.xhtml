@@ -16,6 +16,10 @@
 </h:head>
 
 <h:body >
+
+<!--    добавили слушателя чтобы при обновлении страницы хибернейт не делал несколько раз селект-->
+    <f:event listener="#{productController.preloadData}" type="preRenderView"/>
+
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">EShop</a>
