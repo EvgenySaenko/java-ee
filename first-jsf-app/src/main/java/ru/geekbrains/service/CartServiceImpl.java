@@ -14,6 +14,21 @@ import java.util.concurrent.ConcurrentHashMap;
 //поэтому используем @Stateful - бин создается когда мы пытаемся получить к нему доступ и пожет хранить инфу
 @Stateful
 public class CartServiceImpl implements CartService {
+    private final Map<Long, ProductDto> productMap = new ConcurrentHashMap<>();
 
+    @Override
+    public void add(ProductDto productDto) {
+        productMap.put(productDto.getId(),productDto);
+    }
+
+    @Override
+    public void remove(long id) {
+        productMap.remove(id);
+    }
+
+    @Override
+    public List<ProductDto> findAll() {
+        return new ArrayList<>(productMap.values());
+    }
 
 }

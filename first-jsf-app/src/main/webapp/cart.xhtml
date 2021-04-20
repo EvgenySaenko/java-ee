@@ -1,0 +1,58 @@
+<html lang="en"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pp="http://primefaces.org/ui">
+
+<h:head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
+    <title>EShop application</title>
+</h:head>
+
+<h:body>
+
+    <ui:include src="WEB-INF/fragments/header.xhtml">
+        <ui:param name="pageName" value="cart"/>
+    </ui:include>
+
+
+    <div class="container">
+        <h:form id="cartForm" styleClass="table table-hover">
+            <table class="table table-striped">
+                <h:dataTable value="#{cartController.findAll()}" var="product"
+                             styleClass="table table-hover">
+                    <h:column>
+                        <f:facet name="header">Id</f:facet>
+                        #{product.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        #{product.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Price</f:facet>
+                        #{product.price}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Actions</f:facet>
+                        <h:commandButton value="Delete" styleClass="btn btn-danger mr-2"
+                                         action="#{cartController.remove(product)}">
+                            <!--                                добавление аджакс запрос чтобы не вся страница обновлялась при удалении а только элемент -->
+                            <f:ajax event="click" render="cartForm"/>
+                        </h:commandButton>
+                    </h:column>
+                </h:dataTable>
+            </table>
+        </h:form>
+    </div>
+
+</h:body>
+
+</html>
