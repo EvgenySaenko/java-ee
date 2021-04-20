@@ -7,7 +7,9 @@ import java.util.List;
 
 @Local
 public interface CartService {
+    void add(ProductDto productDto);
 
+    void remove(long id);
 
-
+    List<ProductDto>  findAll();
 }

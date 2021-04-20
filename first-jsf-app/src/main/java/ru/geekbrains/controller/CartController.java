@@ -13,4 +13,19 @@ import java.util.List;
 @Named
 public class CartController implements Serializable {
 
+    @EJB
+    private CartService cartService;
+
+    public void add(ProductDto productDto) {
+        cartService.add(productDto);
+    }
+
+    public void remove(ProductDto productDto) {
+        cartService.remove(productDto.getId());
+    }
+
+    public List<ProductDto> findAll() {
+        return cartService.findAll();
+    }
+
 }
