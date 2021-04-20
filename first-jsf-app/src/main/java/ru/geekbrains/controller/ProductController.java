@@ -1,11 +1,13 @@
 package ru.geekbrains.controller;
 
-import ru.geekbrains.persist.Product;
-import ru.geekbrains.persist.ProductRepository;
+import ru.geekbrains.persist.Category;
+import ru.geekbrains.persist.CategoryRepository;
+import ru.geekbrains.persist.dto.ProductDto;
+import ru.geekbrains.service.ProductService;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
-import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -15,47 +17,57 @@ import java.util.List;
 public class ProductController implements Serializable {
 
 
-    @Inject
-    private ProductRepository productRepository;
+    @EJB
+    private ProductService productService;
 
-    private Product product;
+    @EJB
+    private CategoryRepository categoryRepository;
 
-    private List<Product> productList;
+    private ProductDto productDto;
+
+    private List<ProductDto> productList;
+
+    private List<Category> categoryList;
 
     //при загрузке страницы срабатывает и выполняет предзагрузку и сохраняет в список
     public void preloadData(ComponentSystemEvent componentSystemEvent) {
-        this.productList = productRepository.findAll();
+        this.productList = productService.findAllWithCategoryFetch();
+        this.categoryList = categoryRepository.findAll();
     }
 
-    public Product getProduct() {
-        return product;
+    public ProductDto getProduct() {
+        return productDto;
     }
 
-    public void setProduct(Product product){
-        this.product = product;
+    public void setProduct(ProductDto productDto){
+        this.productDto = productDto;
     }
 
     //тут мы просто читаем список, чтобы каждый раз при обновлении хибернейт не делал селект
-    public List<Product> findAll(){
+    public List<ProductDto> findAll(){
         return  productList;
     }
 
-    public String editProduct(Product product){
-        this.product = product;
+    public String editProduct(ProductDto productDto){
+        this.productDto = productDto;
         return "/product_form.xhtml?faces-redirect=true";
     }
 
-    public void deleteProduct(Product product) {
-        productRepository.delete(product.getId());
+    public void deleteProduct(ProductDto productDto) {
+        productService.delete(productDto.getId());
     }
 
     public String saveProduct() {
-        productRepository.save(product);
+        productService.save(productDto);
         return "/product.xhtml?faces-redirect=true";
     }
 
     public String addProduct() {
-        this.product = new Product();
+        this.productDto = new ProductDto();
         return "/product_form.xhtml?faces-redirect=true";
+    }
+
+    public List<Category> getCategories(){
+        return categoryList;
     }
 }

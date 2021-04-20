@@ -3,9 +3,9 @@ package ru.geekbrains.controller;
 import ru.geekbrains.persist.Category;
 import ru.geekbrains.persist.CategoryRepository;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
-import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 public class CategoryController implements Serializable {
 
 
-    @Inject
+    @EJB
     private CategoryRepository categoryRepository;
 
     private Category category;

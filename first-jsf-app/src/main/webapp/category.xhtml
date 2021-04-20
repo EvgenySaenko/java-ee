@@ -1,7 +1,8 @@
 <html lang="en"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:pf="http://primefaces.org/ui">
+      xmlns:pf="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
     <!-- Required meta tags -->
@@ -19,30 +20,34 @@
 
     <f:event listener="#{categoryController.preloadData}" type="preRenderView"/>
 
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">EShop</a>
+<!--    <div class="container">-->
+<!--        <nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+<!--            <a class="navbar-brand" href="#">EShop</a>-->
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<!--            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"-->
+<!--                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--                <span class="navbar-toggler-icon"></span>-->
+<!--            </button>-->
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <h:link styleClass="nav-link" value="Product" outcome="/product.xhtml"/>
-                    </li>
-                    <li class="nav-item active">
-                        <h:link styleClass="nav-link" value="Category" outcome="/category.xhtml"/>
-                    </li>
-                    <li class="nav-item">
-                        <h:link styleClass="nav-link" value="Customer" outcome="/customer.xhtml"/>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+<!--            <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--                <ul class="navbar-nav mr-auto">-->
+<!--                    <li class="nav-item">-->
+<!--                        <h:link styleClass="nav-link" value="Product" outcome="/product.xhtml"/>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item active">-->
+<!--                        <h:link styleClass="nav-link" value="Category" outcome="/category.xhtml"/>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <h:link styleClass="nav-link" value="Customer" outcome="/customer.xhtml"/>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </nav>-->
+<!--    </div>-->
+
+    <ui:include src="WEB-INF/fragments/header.xhtml">
+        <ui:param name="pageName" value="category"/>
+    </ui:include>
 
     <div class="container">
         <h:form id="categoryTableForm" styleClass="table table-hover">

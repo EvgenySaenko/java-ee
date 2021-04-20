@@ -1,50 +1,18 @@
 package ru.geekbrains.persist;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.SystemException;
-import javax.transaction.Transactional;
-import javax.transaction.UserTransaction;
 import java.util.List;
 
-
-
-@ApplicationScoped
-@Named
+@Stateless
 public class CategoryRepository {
 
     @PersistenceContext(unitName = "ds")
     private EntityManager em;
 
-    @Resource
-    private UserTransaction ut;
-
-    @PostConstruct
-    public void init() {
-        if (countCategories() == 0){
-            try{
-                ut.begin();
-                save(new Category(null,"electronics"));
-                save(new Category(null,"food"));
-                save(new Category(null,"drinks"));
-                ut.commit();
-            }catch (Exception ex){
-                try {
-                    ut.rollback();
-                } catch (SystemException e) {
-                    throw new RuntimeException(e);
-                }
-                throw new RuntimeException(ex);
-            }
-        }
-
-    }
-
-    @Transactional
+    @TransactionAttribute
     public void save(Category category){
         if (category.getId() == null){
             em.persist(category);
@@ -52,15 +20,21 @@ public class CategoryRepository {
         em.merge(category);
     }
 
-    @Transactional
+    @TransactionAttribute
     public void delete(Long id) {
         em.createNamedQuery("deleteCategoryById")
                 .setParameter("id", id)
                 .executeUpdate();
     }
-
+    //полноценно извлекает из базы данных
     public Category findById(Long id) {
         return em.find(Category.class,id);
+    }
+
+    //не обращается к базе, а создает хэбернейтовскую ссылку на сущность Категорий у которой будет только id
+    //используя этот метод избегаем обращения к базе данных
+    public Category getReference(Long id) {
+        return em.getReference(Category.class, id);
     }
 
     public List<Category> findAll() {
