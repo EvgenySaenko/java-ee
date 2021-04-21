@@ -4,6 +4,7 @@ import ru.geekbrains.persist.CategoryRepository;
 import ru.geekbrains.persist.Product;
 import ru.geekbrains.persist.ProductRepository;
 import ru.geekbrains.persist.dto.ProductDto;
+import ru.geekbrains.rest.ProductResource;
 
 import javax.ejb.EJB;
 import javax.ejb.Remote;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 //@Singleton(ejb) равна этим двум  = @ApplicationScoped @Named
 @Stateless//некий бин(без состояния) внутри не хранит никаких данных
 @Remote(ProductServiceRemote.class)// - ProductServiceRemote.class  хотим использовать в качестве удаленного интерфейса
-public class ProductServiceImpl implements ProductService, ProductServiceRemote {
+public class ProductServiceImpl implements ProductService, ProductServiceRemote, ProductResource {
 
     //лучше не смешивать если внедряем через javax.ejb то использовать ее анотации
     @EJB//для внедрения бинов рекомендуется использовать EJB а не Inject(так как бин у нас по технологии EJB через Stateless
@@ -42,9 +43,26 @@ public class ProductServiceImpl implements ProductService, ProductServiceRemote 
     }
 
     @Override
+    public void insert(ProductDto productDto) {
+        if (productDto.getId() != null){
+            throw new IllegalArgumentException("Not null id in the inserted Product");
+        }
+        save(productDto);
+    }
+
+    @Override
+    public void update(ProductDto productDto) {
+        if (productDto.getId() == null){
+            throw new IllegalArgumentException("Not id in the inserted Product");
+        }
+        save(productDto);
+    }
+
+    @Override
     public ProductDto findById(long id) {
         return createProductDtoWithCategory(productRepository.findById(id));
     }
+
 
     @Override
     public List<ProductDto> findAll() {

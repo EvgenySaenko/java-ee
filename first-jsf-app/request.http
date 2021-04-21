@@ -1,0 +1,30 @@
+GET http://localhost:8080/first-jsf-app/api/v1/product
+
+###
+
+POST http://localhost:8080/first-jsf-app/api/v1/product
+Content-Type: application/json
+
+{
+  "description": "Газированная воды",
+  "name": "Pepsi",
+  "price": 50.00,
+  "categoryId": 7
+}
+
+###
+DELETE http://localhost:8080/first-jsf-app/api/v1/product/13
+
+###
+
+PUT http://localhost:8080/first-jsf-app/api/v1/product
+Content-Type: application/json
+
+{
+  "id": 12,
+  "name": "Pepsi",
+  "price": 80.00,
+  "description": "Газированная вода",
+  "categoryId": 7
+}
+

@@ -13,7 +13,6 @@
     <artifactId>first-jsf-app</artifactId>
 
     <dependencies>
-        <!--        scope provided говорит о том что реализацию api нам будет предоставлять сервер приложений на который будем устанавливать этот war файл-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -40,6 +39,12 @@
             <artifactId>javax.faces-api</artifactId>
             <version>2.3</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>8.0</version>
         </dependency>
 
         <dependency>
@@ -71,6 +76,20 @@
         </dependency>
 
         <dependency>
+            <groupId>javax.jms</groupId>
+            <artifactId>javax.jms-api</artifactId>
+            <version>2.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
@@ -82,7 +101,6 @@
             <artifactId>product-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -96,5 +114,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>
