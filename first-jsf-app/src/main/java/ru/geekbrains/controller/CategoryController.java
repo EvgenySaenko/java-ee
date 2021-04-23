@@ -1,7 +1,7 @@
 package ru.geekbrains.controller;
 
-import ru.geekbrains.persist.Category;
-import ru.geekbrains.persist.CategoryRepository;
+import ru.geekbrains.persist.dto.CategoryDto;
+import ru.geekbrains.service.CategoryService;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -16,45 +16,46 @@ public class CategoryController implements Serializable {
 
 
     @EJB
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
-    private Category category;
+    private CategoryDto categoryDto;
 
-    private List<Category> categoryList;
+    private List<CategoryDto> categoryList;
 
     //при загрузке страницы срабатывает и выполняет предзагрузку и сохраняет в список
     public void preloadData(ComponentSystemEvent componentSystemEvent) {
-        this.categoryList = categoryRepository.findAll();
+        this.categoryList = categoryService.findAll();
+
     }
 
-    public Category getCategory() {
-        return category;
+    public CategoryDto getCategory() {
+        return categoryDto;
     }
 
-    public void setCategory(Category category){
-        this.category = category;
+    public void setCategory(CategoryDto categoryDto){
+        this.categoryDto = categoryDto;
     }
 
-    public List<Category> findAll(){
+    public List<CategoryDto> findAll(){
         return categoryList;
     }
 
-    public String editCategory(Category category){
-        this.category = category;
+    public String editCategory(CategoryDto categoryDto){
+        this.categoryDto = categoryDto;
         return "/category_form.xhtml?faces-redirect=true";
     }
 
-    public void deleteCategory(Category category) {
-        categoryRepository.delete(category.getId());
+    public void deleteCategory(CategoryDto categoryDto) {
+        categoryService.delete(categoryDto.getId());
     }
 
     public String saveCategory() {
-        categoryRepository.save(category);
+        categoryService.save(categoryDto);
         return "/category.xhtml?faces-redirect=true";
     }
 
     public String addCategory() {
-        this.category = new Category();
+        this.categoryDto = new CategoryDto();
         return "/category_form.xhtml?faces-redirect=true";
     }
 }

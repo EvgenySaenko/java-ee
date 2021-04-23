@@ -1,10 +1,12 @@
 package ru.geekbrains.controller;
 
-import ru.geekbrains.persist.Customer;
-import ru.geekbrains.persist.CustomerRepository;
+
+import ru.geekbrains.persist.dto.CustomerDto;
+import ru.geekbrains.service.CustomerService;
+
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
-import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -13,46 +15,46 @@ import java.util.List;
 @Named
 public class CustomerController implements Serializable {
 
-    @Inject
-    private CustomerRepository customerRepository;
+    @EJB
+    private CustomerService customerService;
 
-    private Customer customer;
+    private CustomerDto customerDto;
 
-    private List<Customer> customerList;
+    private List<CustomerDto> customerList;
 
     //при загрузке страницы срабатывает и выполняет предзагрузку и сохраняет в список
     public void preloadData(ComponentSystemEvent componentSystemEvent) {
-        this.customerList = customerRepository.findAll();
+        this.customerList = customerService.findAll();
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public CustomerDto getCustomer() {
+        return customerDto;
     }
 
-    public void setCustomer(Customer customer){
-        this.customer = customer;
+    public void setCustomer(CustomerDto customerDto){
+        this.customerDto = customerDto;
     }
 
-    public List<Customer> findAll(){
+    public List<CustomerDto> findAll(){
         return customerList;
     }
 
-    public String editCustomer(Customer customer){
-        this.customer = customer;
+    public String editCustomer(CustomerDto customerDto){
+        this.customerDto = customerDto;
         return "/customer_form.xhtml?faces-redirect=true";
     }
 
-    public void deleteCustomer(Customer customer) {
-        customerRepository.delete(customer.getId());
+    public void deleteCustomer(CustomerDto customerDto) {
+        customerService.delete(customerDto.getId());
     }
 
     public String saveCustomer() {
-        customerRepository.save(customer);
+        customerService.save(customerDto);
         return "/customer.xhtml?faces-redirect=true";
     }
 
     public String addCustomer() {
-        this.customer = new Customer();
+        this.customerDto = new CustomerDto();
         return "/customer_form.xhtml?faces-redirect=true";
     }
 }

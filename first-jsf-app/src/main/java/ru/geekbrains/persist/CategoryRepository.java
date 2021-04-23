@@ -12,7 +12,6 @@ public class CategoryRepository {
     @PersistenceContext(unitName = "ds")
     private EntityManager em;
 
-    @TransactionAttribute
     public void save(Category category){
         if (category.getId() == null){
             em.persist(category);
@@ -20,7 +19,6 @@ public class CategoryRepository {
         em.merge(category);
     }
 
-    @TransactionAttribute
     public void delete(Long id) {
         em.createNamedQuery("deleteCategoryById")
                 .setParameter("id", id)

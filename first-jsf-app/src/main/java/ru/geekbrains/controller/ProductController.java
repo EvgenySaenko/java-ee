@@ -2,7 +2,9 @@ package ru.geekbrains.controller;
 
 import ru.geekbrains.persist.Category;
 import ru.geekbrains.persist.CategoryRepository;
+import ru.geekbrains.persist.dto.CategoryDto;
 import ru.geekbrains.persist.dto.ProductDto;
+import ru.geekbrains.service.CategoryService;
 import ru.geekbrains.service.ProductService;
 
 import javax.ejb.EJB;
@@ -21,18 +23,18 @@ public class ProductController implements Serializable {
     private ProductService productService;
 
     @EJB
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
     private ProductDto productDto;
 
     private List<ProductDto> productList;
 
-    private List<Category> categoryList;
+    private List<CategoryDto> categoryList;
 
     //при загрузке страницы срабатывает и выполняет предзагрузку и сохраняет в список
     public void preloadData(ComponentSystemEvent componentSystemEvent) {
         this.productList = productService.findAllWithCategoryFetch();
-        this.categoryList = categoryRepository.findAll();
+        this.categoryList = categoryService.findAll();
     }
 
     public ProductDto getProduct() {
@@ -67,7 +69,7 @@ public class ProductController implements Serializable {
         return "/product_form.xhtml?faces-redirect=true";
     }
 
-    public List<Category> getCategories(){
+    public List<CategoryDto> getCategories(){
         return categoryList;
     }
 }
