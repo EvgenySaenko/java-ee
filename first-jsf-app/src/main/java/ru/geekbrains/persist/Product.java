@@ -2,6 +2,7 @@ package ru.geekbrains.persist;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity

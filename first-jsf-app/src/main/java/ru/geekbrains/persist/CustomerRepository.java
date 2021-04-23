@@ -1,47 +1,18 @@
 package ru.geekbrains.persist;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Named;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.SystemException;
-import javax.transaction.Transactional;
-import javax.transaction.UserTransaction;
+
 import java.util.List;
 
 
-@ApplicationScoped
-@Named
+@Stateless
 public class CustomerRepository {
 
     @PersistenceContext(unitName = "ds")
     private EntityManager em;
 
-    @Resource
-    private UserTransaction ut;
-
-
-    @PostConstruct
-    public void init() {
-        if (countCustomers() == 0){
-            try{
-                ut.begin();
-                save(new Customer(null,"JackRicher","123456"));
-                save(new Customer(null,"John McClain","777"));
-                ut.commit();
-            }catch (Exception e){
-                try {
-                    ut.rollback();
-                } catch (SystemException ex) {
-                    throw new RuntimeException(ex);
-                }
-                throw new RuntimeException(e);
-            }
-        }
-    }
-    @Transactional
     public void save(Customer customer){
         if (customer.getId() == null){
             em.persist(customer);
@@ -49,7 +20,6 @@ public class CustomerRepository {
         em.merge(customer);
     }
 
-    @Transactional
     public void delete(Long id) {
         em.createNamedQuery("deleteCustomerById")
                 .setParameter("id", id)
