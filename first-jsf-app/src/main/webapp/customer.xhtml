@@ -45,9 +45,9 @@
                     <h:column>
                         <f:facet name="header">Actions</f:facet>
 
-                        <h:commandButton value="Edit" styleClass="btn btn-dark mr-2"
+                        <h:commandButton value="Edit" styleClass="btn btn-dark mr-2" rendered="#{request.isUserInRole('ADMIN')}"
                                          action="#{customerController.editCustomer(customer)}"/>
-                        <h:commandButton value="Delete" styleClass="btn btn-danger mr-2"
+                        <h:commandButton value="Delete" styleClass="btn btn-danger mr-2" rendered="#{request.isUserInRole('ADMIN')}"
                                          action="#{customerController.deleteCustomer(customer)}">
                             <!--                                добавление аджакс запрос чтобы не вся страница обновлялась при удалении а только элемент -->
                             <f:ajax event="click" render="customerTableForm"/>
@@ -57,7 +57,7 @@
             </table>
 
             <div class="table table-striped">
-                <h:commandButton value="Add Customer" styleClass="btn btn-dark"
+                <h:commandButton value="Add Customer" styleClass="btn btn-dark" rendered="#{request.isUserInRole('ADMIN')}"
                                  action="#{customerController.addCustomer()}"/>
             </div>
         </h:form>

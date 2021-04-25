@@ -1,20 +1,17 @@
-
 <html lang="en"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">EShop</a>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item #{pageName == 'product' ? 'active' : ''}">
                     <h:link styleClass="nav-link" value="Product" outcome="/product.xhtml"/>
                 </li>
@@ -27,8 +24,29 @@
                 <li class="nav-item #{pageName == 'cart' ? 'active' : ''}">
                     <h:link styleClass="nav-link" value="Cart" outcome="/cart.xhtml"/>
                 </li>
+                <li class="nav-item #{pageName == 'user' ? 'active' : ''}">
+                    <h:link styleClass="nav-link" value="User" outcome="/admin/user.xhtml"/>
+                </li>
+
+                <ul class="form-inline my-2 my-lg-0">
+                    <li class="nav-item class form-inline my-2 my-lg-0">
+                        <h:link class="form-control mr-sm-2" styleClass="btn btn-dark"
+                                rendered="#{request.userPrincipal == null}"
+                                value="Login" outcome="/login"/>
+
+                        <h:form class="btn btn-outline-success my-2 my-sm-0" styleClass="ml-2">
+                            <h:commandLink styleClass="btn btn-dark" rendered="#{request.userPrincipal != null}"
+                                           action="#{userController.logout()}"
+                                           value="Logout #{request.remoteUser}"/>
+                        </h:form>
+                    </li>
+                </ul>
 
             </ul>
+            <!--        <form class="form-inline my-2 my-lg-0">-->
+            <!--            <input class="form-control mr-sm-2" type="search" placeholder="Search">-->
+            <!--            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+            <!--        </form>-->
         </div>
     </nav>
 </div>

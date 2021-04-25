@@ -14,9 +14,13 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: Build with Maven
+        id: mvn_build
+        run: |
+          mvn --batch-mode clean install
 
       - name: Build with Maven
-        id: mvn_build_1
+        id: mvn_build_deploy_1
         run: |
           cd first-web-app
           mvn --batch-mode clean install wildfly:undeploy wildfly:deploy \
@@ -26,7 +30,7 @@ jobs:
 
 
       - name: Build with Maven
-        id: mvn_build_2
+        id: mvn_build_deploy_2
         run: |
           cd first-jsf-app
           mvn --batch-mode clean install wildfly:undeploy wildfly:deploy \
